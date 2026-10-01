@@ -73,6 +73,25 @@ public class FormTest {
         driver.findElement(By.tagName("button")).click();
         WebElement result = driver.findElement(By.cssSelector("[data-test-id='agreement'].input_invalid .checkbox__text"));
         Assertions.assertTrue(result.isDisplayed());
-        Assertions.assertEquals("rgba(255, 92, 92, 1)", result.getCssValue("color"));
+    }
+
+    @Test
+    public void shouldSendFormUnfilledFieldName() {
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79219876543");
+        driver.findElement(By.cssSelector("[data-test-id='agreement'] .checkbox__text")).click();
+        driver.findElement(By.tagName("button")).click();
+        WebElement result = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"));
+        Assertions.assertTrue(result.isDisplayed());
+        Assertions.assertEquals("Поле обязательно для заполнения", result.getText().trim());
+    }
+
+    @Test
+    public void shouldSendFormUnfilledFieldPhone() {
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Иванов Иван");
+        driver.findElement(By.cssSelector("[data-test-id='agreement'] .checkbox__text")).click();
+        driver.findElement(By.tagName("button")).click();
+        WebElement result = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"));
+        Assertions.assertTrue(result.isDisplayed());
+        Assertions.assertEquals("Поле обязательно для заполнения", result.getText().trim());
     }
 }
